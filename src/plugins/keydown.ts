@@ -1,7 +1,8 @@
+import { LitPopupInterface, PluginDestroyer } from '../types';
 import { KEYCODES } from '../utils';
 import events from '../events';
 
-export default (instance: any) => {
+export default (instance: LitPopupInterface): PluginDestroyer => {
     const onKeydown = (event: KeyboardEvent) => {
         if (event.keyCode === KEYCODES.ESC) {
             event.preventDefault();

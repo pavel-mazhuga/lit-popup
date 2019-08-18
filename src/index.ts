@@ -2,19 +2,15 @@ import { withPrefix, triggerCustomEvent, listenOnce } from './utils';
 import events from './events';
 import classes from './classes';
 import keydown from './plugins/keydown';
+import {
+    LitPopupOptions,
+    LitPopupInterface,
+    Plugin,
+    PluginDestroyer,
+    EventOptions,
+} from './types';
 
-interface LitPopupOptions {
-    plugins: Plugin[];
-    innerContainerSelector: string;
-    onOpen: (instance: unknown) => void;
-    onOpenComplete: (instance: unknown) => void;
-    onClose: (instance: unknown) => void;
-    onCloseComplete: (instance: unknown) => void;
-    openAnimation: (instance: unknown) => Promise<void>;
-    closeAnimation: (instance: unknown) => Promise<void>;
-}
-
-type Plugin = (instance: unknown) => () => void;
+// export type Plugin = (instance: LitPopupInterface) => () => void;
 
 const defaultOptions: LitPopupOptions = {
     plugins: [],
@@ -29,7 +25,7 @@ const defaultOptions: LitPopupOptions = {
 
 export { events };
 
-export default class LitPopup {
+export default class LitPopup implements LitPopupInterface {
     private options: LitPopupOptions;
     public isOpen: boolean;
     public el: Element;
@@ -37,10 +33,10 @@ export default class LitPopup {
     private openButtons: Element[];
     private closeButtons: Element[];
     private plugins: Plugin[];
-    private pluginDestroyers: Function[];
+    private pluginDestroyers: PluginDestroyer[];
     public previousActiveElement: Element | null;
 
-    constructor(name: string, options: { [key: string]: unknown } = {}) {
+    constructor(name: string, options: EventOptions = {}) {
         if (!name) {
             throw new Error(withPrefix('Expected a name as a first argument.'));
         }
@@ -68,7 +64,7 @@ export default class LitPopup {
         this.init();
     }
 
-    public init(): void {
+    private init(): void {
         this.openButtons.forEach((btn) => btn.addEventListener('click', this.open));
         this.closeButtons.forEach((btn) => btn.addEventListener('click', this.close));
         this.pluginDestroyers = this.plugins.map(plugin => plugin(this));
@@ -103,7 +99,7 @@ export default class LitPopup {
         this.el.removeEventListener(eventName, fn);
     }
 
-    public trigger(eventName: string, options: { [key: string]: unknown }): void {
+    public trigger(eventName: string, options: EventOptions): void {
         triggerCustomEvent(this.el, eventName, options);
     }
 
@@ -111,7 +107,7 @@ export default class LitPopup {
         const firstFocusableElement: HTMLElement | null = this.el.querySelector(':not([disabled])');
         this.previousActiveElement = document.activeElement;
 
-        if (firstFocusableElement instanceof HTMLElement) {
+        if (firstFocusableElement) {
             firstFocusableElement.focus();
         }
 
