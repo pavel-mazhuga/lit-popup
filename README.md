@@ -3,7 +3,7 @@
 ## A customizable, modular, lightweight popup plugin with no dependencies (*Work in progress*).
 
 ## Why?
-I needed full control over animation and popup lifecycles.
+I needed full control over popup animation and popup lifecycle.
 
 ## Installation
 
