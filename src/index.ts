@@ -1,10 +1,9 @@
+import './css/lit-popup.css';
 import { withPrefix, triggerCustomEvent, listenOnce } from './utils';
 import events from './events';
 import classes from './classes';
 import keydown from './plugins/keydown';
 import { LitPopupOptions, LitPopupInterface, Plugin, PluginDestroyer, EventOptions } from './types';
-
-// export type Plugin = (instance: LitPopupInterface) => () => void;
 
 const defaultOptions: LitPopupOptions = {
     plugins: [],
