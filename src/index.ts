@@ -2,13 +2,7 @@ import { withPrefix, triggerCustomEvent, listenOnce } from './utils';
 import events from './events';
 import classes from './classes';
 import keydown from './plugins/keydown';
-import {
-    LitPopupOptions,
-    LitPopupInterface,
-    Plugin,
-    PluginDestroyer,
-    EventOptions,
-} from './types';
+import { LitPopupOptions, LitPopupInterface, Plugin, PluginDestroyer, EventOptions } from './types';
 
 // export type Plugin = (instance: LitPopupInterface) => () => void;
 
@@ -65,14 +59,14 @@ export default class LitPopup implements LitPopupInterface {
     }
 
     private init(): void {
-        this.openButtons.forEach((btn) => btn.addEventListener('click', this.open));
-        this.closeButtons.forEach((btn) => btn.addEventListener('click', this.close));
+        this.openButtons.forEach(btn => btn.addEventListener('click', this.open));
+        this.closeButtons.forEach(btn => btn.addEventListener('click', this.close));
         this.pluginDestroyers = this.plugins.map(plugin => plugin(this));
     }
 
     public destroy(): void {
-        this.openButtons.forEach((btn) => btn.removeEventListener('click', this.open));
-        this.closeButtons.forEach((btn) => btn.removeEventListener('click', this.close));
+        this.openButtons.forEach(btn => btn.removeEventListener('click', this.open));
+        this.closeButtons.forEach(btn => btn.removeEventListener('click', this.close));
         this.pluginDestroyers.forEach(fn => fn());
         this.isOpen = false;
         (this.el as unknown) = null;
@@ -129,7 +123,7 @@ export default class LitPopup implements LitPopupInterface {
         triggerCustomEvent(this.el, events.CLOSE);
 
         await this.options.closeAnimation(this);
-        
+
         this.isOpen = false;
         this.el.classList.remove(classes.IS_CLOSING, classes.OPENED);
 
