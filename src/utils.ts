@@ -11,11 +11,7 @@ export const listenOnce = (element: Element, eventName: string, fn: EventListene
     });
 };
 
-export const triggerCustomEvent = (
-    el: Element | Document | Window,
-    eventName: string,
-    data = {},
-): void => {
+export const triggerCustomEvent = (el: Element | Document | Window, eventName: string, data = {}): void => {
     let event;
 
     if (CustomEvent) {
