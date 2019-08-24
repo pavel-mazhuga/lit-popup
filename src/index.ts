@@ -92,7 +92,7 @@ export default class LitPopup implements LitPopupInterface {
         this.el.removeEventListener(eventName, fn);
     }
 
-    public trigger(eventName: string, options: EventOptions): void {
+    public trigger(eventName: string, options?: EventOptions): void {
         triggerCustomEvent(this.el, eventName, options);
     }
 

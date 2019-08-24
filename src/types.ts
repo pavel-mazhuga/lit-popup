@@ -3,7 +3,7 @@ export interface EventOptions {
 }
 
 export interface EventHandler {
-    (eventName: string, fn: EventListener, options: EventOptions): void;
+    (eventName: string, fn: EventListener): void;
 }
 
 export interface LitPopupInterface {
@@ -17,7 +17,7 @@ export interface LitPopupInterface {
     on: EventHandler;
     one: EventHandler;
     off: EventHandler;
-    trigger: (eventName: string, options: EventOptions) => void;
+    trigger: (eventName: string, options?: EventOptions) => void;
 }
 
 export interface LitPopupOptions {
