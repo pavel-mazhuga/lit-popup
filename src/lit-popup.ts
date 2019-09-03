@@ -76,8 +76,8 @@ export default class LitPopup implements LitPopupInterface {
         this.isOpen = false;
         (this.el as unknown) = null;
         this.innerContainer = null;
-        (this.openButtons as unknown) = null;
-        (this.closeButtons as unknown) = null;
+        (this.openButtons as unknown) = [];
+        (this.closeButtons as unknown) = [];
         this.previousActiveElement = null;
     }
 

@@ -23,7 +23,5 @@ export default (instance: LitPopupInterface): PluginDestroyer => {
 
     return () => {
         deattachListeners();
-        instance.off(events.OPEN, attachListeners);
-        instance.off(events.CLOSE, deattachListeners);
     };
 };
