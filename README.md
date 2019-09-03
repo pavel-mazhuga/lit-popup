@@ -15,6 +15,8 @@ Install it from NPM:
 
 ## Usage
 
+Include css from **node_modules/lit-popup/dist/css/lit-popup.min.css** (or write your own)
+
 ```html
 <div class="lit-popup" data-lit-popup="popup">
     <div class="lit-popup-container">
