@@ -2,7 +2,7 @@ import { withPrefix, triggerCustomEvent, listenOnce } from './utils';
 import events from './events';
 import classes from './classes';
 import keydown from './plugins/keydown';
-import { LitPopupOptions, LitPopupInterface, Plugin, PluginDestroyer, EventOptions } from './types';
+import { LitPopupOptions, LitPopupInterface, Plugin, PluginDestroyer, EventOptions, Listener } from './types';
 
 const defaultOptions: LitPopupOptions = {
     plugins: [],
@@ -27,6 +27,7 @@ export default class LitPopup implements LitPopupInterface {
     private plugins: Plugin[];
     private pluginDestroyers: PluginDestroyer[];
     public previousActiveElement: Element | null;
+    private listeners: Listener[];
 
     constructor(name: string, options: EventOptions = {}) {
         if (!name) {
@@ -43,6 +44,7 @@ export default class LitPopup implements LitPopupInterface {
 
         this.el = el;
 
+        this.listeners = [];
         this.innerContainer = this.el.querySelector(this.options.innerContainerSelector);
         this.openButtons = Array.from(document.querySelectorAll(`[data-lit-popup-open="${name}"]`));
         this.closeButtons = Array.from(document.querySelectorAll(`[data-lit-popup-close="${name}"]`));
@@ -66,6 +68,8 @@ export default class LitPopup implements LitPopupInterface {
         this.openButtons.forEach(btn => btn.removeEventListener('click', this.open));
         this.closeButtons.forEach(btn => btn.removeEventListener('click', this.close));
         this.pluginDestroyers.forEach(fn => fn());
+        this.listeners.forEach(([eventName, fn]) => this.off(eventName, fn));
+        this.listeners = [];
         this.isOpen = false;
         (this.el as unknown) = null;
         this.innerContainer = null;
@@ -80,6 +84,7 @@ export default class LitPopup implements LitPopupInterface {
             this.one(eventName, fn);
         } else {
             this.el.addEventListener(eventName, fn);
+            this.listeners.push([eventName, fn]);
         }
     }
 

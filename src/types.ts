@@ -38,3 +38,5 @@ export interface PluginDestroyer {
 export interface Plugin {
     (instance: LitPopupInterface): PluginDestroyer;
 }
+
+export type Listener = [string, EventListener];
