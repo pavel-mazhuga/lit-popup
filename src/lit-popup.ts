@@ -13,6 +13,7 @@ const defaultOptions: LitPopupOptions = {
     onClose: () => {},
     closeAnimation: () => new Promise(resolve => resolve()),
     onCloseComplete: () => {},
+    onDestroy: () => {},
 };
 
 export { events };
@@ -65,6 +66,8 @@ export default class LitPopup implements LitPopupInterface {
     }
 
     public destroy(): void {
+        this.options.onDestroy(this);
+        this.trigger(events.DESTROY);
         this.openButtons.forEach(btn => btn.removeEventListener('click', this.open));
         this.closeButtons.forEach(btn => btn.removeEventListener('click', this.close));
         this.pluginDestroyers.forEach(fn => fn());
@@ -76,7 +79,6 @@ export default class LitPopup implements LitPopupInterface {
         (this.openButtons as unknown) = null;
         (this.closeButtons as unknown) = null;
         this.previousActiveElement = null;
-        triggerCustomEvent(this.el, events.DESTROY);
     }
 
     public on(eventName: string, fn: EventListener) {
@@ -111,19 +113,19 @@ export default class LitPopup implements LitPopupInterface {
         this.isOpen = true;
         this.el.classList.add(classes.OPENED, classes.IS_OPENING);
         this.options.onOpen(this);
-        triggerCustomEvent(this.el, events.OPEN);
+        this.trigger(events.OPEN);
 
         await this.options.openAnimation(this);
 
         this.el.classList.remove(classes.IS_OPENING);
         this.options.onOpenComplete(this);
-        triggerCustomEvent(this.el, events.OPEN_COMPLETE);
+        this.trigger(events.OPEN_COMPLETE);
     }
 
     public async close(): Promise<void> {
         this.el.classList.add(classes.IS_CLOSING);
         this.options.onClose(this);
-        triggerCustomEvent(this.el, events.CLOSE);
+        this.trigger(events.CLOSE);
 
         await this.options.closeAnimation(this);
 
@@ -139,6 +141,6 @@ export default class LitPopup implements LitPopupInterface {
         }
 
         this.options.onCloseComplete(this);
-        triggerCustomEvent(this.el, events.CLOSE_COMPLETE);
+        this.trigger(events.CLOSE_COMPLETE);
     }
 }

@@ -29,6 +29,7 @@ export interface LitPopupOptions {
     onCloseComplete: (instance: LitPopupInterface) => void;
     openAnimation: (instance: LitPopupInterface) => Promise<void>;
     closeAnimation: (instance: LitPopupInterface) => Promise<void>;
+    onDestroy: (instance: LitPopupInterface) => void;
 }
 
 export interface PluginDestroyer {
