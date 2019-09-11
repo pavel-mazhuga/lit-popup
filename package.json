@@ -1,48 +1,45 @@
 {
-  "name": "lit-popup",
-  "version": "0.0.5",
-  "description": "A modern popup module with no dependencies.",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:pavel-mazhuga/lit-popup.git"
-  },
-  "main": "dist/umd/index.js",
-  "module": "dist/esm/index.js",
-  "files": [
-    "dist/umd/*",
-    "dist/esm/*"
-  ],
-  "scripts": {
-    "prepare": "rollup --config",
-    "test": "jest --env=jsdom"
-  },
-  "keywords": [
-    "popup",
-    "vanilla-js",
-    "modal"
-  ],
-  "author": "Pavel Mazhuga",
-  "license": "MIT",
-  "devDependencies": {
-    "@babel/preset-typescript": "^7.3.3",
-    "@types/jest": "^24.0.17",
-    "@typescript-eslint/eslint-plugin": "^2.0.0",
-    "@typescript-eslint/parser": "^2.0.0",
-    "eslint": "^6.1.0",
-    "eslint-config-prettier": "^6.1.0",
-    "eslint-plugin-prettier": "^3.1.0",
-    "jest": "^24.9.0",
-    "prettier": "^1.18.2",
-    "rollup": "^1.19.4",
-    "rollup-plugin-css-porter": "^1.0.2",
-    "rollup-plugin-eslint": "^7.0.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-terser": "^5.1.1",
-    "rollup-plugin-typescript2": "^0.22.1",
-    "ts-jest": "^24.0.2",
-    "typescript": "^3.5.3"
-  },
-  "dependencies": {
-    "eslint-plugin-jest": "^22.15.1"
-  }
+    "name": "lit-popup",
+    "version": "0.0.5",
+    "description": "A modern popup module with no dependencies.",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:pavel-mazhuga/lit-popup.git"
+    },
+    "main": "dist/index.js",
+    "module": "dist/esm/index.js",
+    "scripts": {
+        "prepare": "rimraf ./dist && rollup --config",
+        "test": "jest"
+    },
+    "keywords": [
+        "popup",
+        "vanilla js",
+        "modal",
+        "typescript"
+    ],
+    "author": "Pavel Mazhuga",
+    "license": "MIT",
+    "devDependencies": {
+        "@types/jest": "^24.0.17",
+        "@typescript-eslint/eslint-plugin": "^2.0.0",
+        "@typescript-eslint/parser": "^2.0.0",
+        "eslint": "^6.1.0",
+        "eslint-config-prettier": "^6.1.0",
+        "eslint-plugin-prettier": "^3.1.0",
+        "jest": "^24.9.0",
+        "prettier": "^1.18.2",
+        "rimraf": "^3.0.0",
+        "rollup": "^1.19.4",
+        "rollup-plugin-css-porter": "^1.0.2",
+        "rollup-plugin-eslint": "^7.0.0",
+        "rollup-plugin-node-resolve": "^5.2.0",
+        "rollup-plugin-terser": "^5.1.1",
+        "rollup-plugin-typescript2": "^0.22.1",
+        "ts-jest": "^24.0.2",
+        "typescript": "^3.5.3"
+    },
+    "dependencies": {
+        "eslint-plugin-jest": "^22.15.1"
+    }
 }

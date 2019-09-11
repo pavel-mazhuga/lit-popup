@@ -1,22 +1,75 @@
-import { withPrefix, triggerCustomEvent, listenOnce } from './utils';
-import events from './events';
-import classes from './classes';
-import keydown from './plugins/keydown';
-import { LitPopupOptions, LitPopupInterface, Plugin, PluginDestroyer, EventOptions, Listener } from './types';
+import { withPrefix, triggerCustomEvent, listenOnce } from '../utils';
+import keydown from '../plugins/keydown';
+
+export interface EventOptions {
+    [key: string]: unknown;
+}
+
+export interface EventHandler {
+    (eventName: string, fn: EventListener): void;
+}
+
+export interface LitPopupInterface {
+    isOpen: boolean;
+    el: Element;
+    innerContainer: Element | null;
+    previousActiveElement: Element | null;
+    open: () => Promise<void>;
+    close: () => Promise<void>;
+    destroy: () => void;
+    on: EventHandler;
+    one: EventHandler;
+    off: EventHandler;
+    trigger: (eventName: string, options?: EventOptions) => void;
+}
+
+export interface LitPopupOptions {
+    plugins: Plugin[];
+    innerContainerSelector: string;
+    onOpen: (instance: LitPopupInterface) => void;
+    onOpenComplete: (instance: LitPopupInterface) => void;
+    onClose: (instance: LitPopupInterface) => void;
+    onCloseComplete: (instance: LitPopupInterface) => void;
+    openAnimation: (instance: LitPopupInterface) => Promise<void>;
+    closeAnimation: (instance: LitPopupInterface) => Promise<void>;
+    onDestroy: (instance: LitPopupInterface) => void;
+}
+
+export interface PluginDestroyer {
+    (): void;
+}
+
+export interface Plugin {
+    (instance: LitPopupInterface): PluginDestroyer;
+}
+
+export type Listener = [string, EventListener];
+
+export const classes = {
+    IS_OPENING: 'lit-popup--opening',
+    IS_CLOSING: 'lit-popup--closing',
+    OPENED: 'lit-popup--opened',
+};
+
+export const events = {
+    OPEN: 'open',
+    OPEN_COMPLETE: 'open-complete',
+    CLOSE: 'close',
+    CLOSE_COMPLETE: 'close-complete',
+    DESTROY: 'destroy',
+};
 
 const defaultOptions: LitPopupOptions = {
     plugins: [],
     innerContainerSelector: '.lit-popup-container',
     onOpen: () => {},
-    openAnimation: () => new Promise(resolve => resolve()),
+    openAnimation: () => Promise.resolve(),
     onOpenComplete: () => {},
     onClose: () => {},
-    closeAnimation: () => new Promise(resolve => resolve()),
+    closeAnimation: () => Promise.resolve(),
     onCloseComplete: () => {},
     onDestroy: () => {},
 };
-
-export { events };
 
 export default class LitPopup implements LitPopupInterface {
     private options: LitPopupOptions;
