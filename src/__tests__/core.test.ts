@@ -1,4 +1,4 @@
-import LitPopup from '../lit-popup';
+import LitPopup from '../index';
 import { withPrefix } from '../utils';
 
 const name = 'test';

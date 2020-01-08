@@ -1,5 +1,5 @@
 import { KEYCODES } from '../utils';
-import { events, LitPopupInterface, PluginDestroyer } from '../lit-popup';
+import { events, LitPopupInterface, PluginDestroyer } from '../index';
 
 export default (instance: LitPopupInterface): PluginDestroyer => {
     const onKeydown = (event: KeyboardEvent) => {
