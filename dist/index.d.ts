@@ -35,18 +35,6 @@ export interface Plugin {
     (instance: LitPopupInterface): PluginDestroyer;
 }
 export declare type Listener = [string, EventListener];
-export declare const classes: {
-    IS_OPENING: string;
-    IS_CLOSING: string;
-    OPENED: string;
-};
-export declare const events: {
-    OPEN: string;
-    OPEN_COMPLETE: string;
-    CLOSE: string;
-    CLOSE_COMPLETE: string;
-    DESTROY: string;
-};
 export default class LitPopup implements LitPopupInterface {
     private options;
     isOpen: boolean;
