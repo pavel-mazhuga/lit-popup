@@ -4,6 +4,20 @@ export const KEYCODES = {
     ESC: 27,
 };
 
+export const classes = {
+    IS_OPENING: 'lit-popup--opening',
+    IS_CLOSING: 'lit-popup--closing',
+    OPENED: 'lit-popup--opened',
+};
+
+export const events = {
+    OPEN: 'open',
+    OPEN_COMPLETE: 'open-complete',
+    CLOSE: 'close',
+    CLOSE_COMPLETE: 'close-complete',
+    DESTROY: 'destroy',
+};
+
 export const listenOnce = (element: Element, eventName: string, fn: EventListener) => {
     element.addEventListener(eventName, function listener(...args) {
         element.removeEventListener(eventName, listener);

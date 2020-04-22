@@ -1,4 +1,4 @@
-import { withPrefix, triggerCustomEvent, listenOnce } from './utils';
+import { withPrefix, triggerCustomEvent, listenOnce, events, classes } from './utils';
 import keydown from './plugins/keydown';
 
 export interface EventOptions {
@@ -45,20 +45,6 @@ export interface Plugin {
 
 export type Listener = [string, EventListener];
 
-export const classes = {
-    IS_OPENING: 'lit-popup--opening',
-    IS_CLOSING: 'lit-popup--closing',
-    OPENED: 'lit-popup--opened',
-};
-
-export const events = {
-    OPEN: 'open',
-    OPEN_COMPLETE: 'open-complete',
-    CLOSE: 'close',
-    CLOSE_COMPLETE: 'close-complete',
-    DESTROY: 'destroy',
-};
-
 const defaultOptions: LitPopupOptions = {
     plugins: [],
     innerContainerSelector: '.lit-popup-container',
@@ -73,14 +59,14 @@ const defaultOptions: LitPopupOptions = {
 
 export default class LitPopup implements LitPopupInterface {
     private options: LitPopupOptions;
-    public isOpen: boolean;
-    public el: Element;
-    public innerContainer: Element | null;
+    isOpen: boolean;
+    el: Element;
+    innerContainer: Element | null;
     private openButtons: Element[];
     private closeButtons: Element[];
     private plugins: Plugin[];
     private pluginDestroyers: PluginDestroyer[];
-    public previousActiveElement: Element | null;
+    previousActiveElement: Element | null;
     private listeners: Listener[];
 
     constructor(name: string, options: EventOptions = {}) {
@@ -112,13 +98,13 @@ export default class LitPopup implements LitPopupInterface {
         this.init();
     }
 
-    private init(): void {
+    private init() {
         this.openButtons.forEach(btn => btn.addEventListener('click', this.open));
         this.closeButtons.forEach(btn => btn.addEventListener('click', this.close));
         this.pluginDestroyers = this.plugins.map(plugin => plugin(this));
     }
 
-    public destroy(): void {
+    destroy() {
         this.options.onDestroy(this);
         this.trigger(events.DESTROY);
         this.openButtons.forEach(btn => btn.removeEventListener('click', this.open));
@@ -134,7 +120,7 @@ export default class LitPopup implements LitPopupInterface {
         this.previousActiveElement = null;
     }
 
-    public on(eventName: string, fn: EventListener) {
+    on(eventName: string, fn: EventListener) {
         if (eventName === 'destroy') {
             this.one(eventName, fn);
         } else {
@@ -143,19 +129,19 @@ export default class LitPopup implements LitPopupInterface {
         }
     }
 
-    public one(eventName: string, fn: EventListener): void {
+    one(eventName: string, fn: EventListener) {
         listenOnce(this.el, eventName, fn);
     }
 
-    public off(eventName: string, fn: EventListener): void {
+    off(eventName: string, fn: EventListener) {
         this.el.removeEventListener(eventName, fn);
     }
 
-    public trigger(eventName: string, options?: EventOptions): void {
+    trigger(eventName: string, options?: EventOptions) {
         triggerCustomEvent(this.el, eventName, options);
     }
 
-    public async open(): Promise<void> {
+    async open() {
         const firstFocusableElement: HTMLElement | null = this.el.querySelector(':not([disabled])');
         this.previousActiveElement = document.activeElement;
 
@@ -175,7 +161,7 @@ export default class LitPopup implements LitPopupInterface {
         this.trigger(events.OPEN_COMPLETE);
     }
 
-    public async close(): Promise<void> {
+    async close() {
         this.el.classList.add(classes.IS_CLOSING);
         this.options.onClose(this);
         this.trigger(events.CLOSE);
