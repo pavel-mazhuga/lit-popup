@@ -141,21 +141,21 @@ export default class LitPopup implements LitPopupInterface {
         triggerCustomEvent(this.el, eventName, options);
     }
 
-    setOpenAnimation(fn: () => Promise<void>) {
+    setOpenAnimation(fn: (instance: LitPopupInterface) => Promise<void>) {
         this.options.openAnimation = fn;
     }
 
-    setCloseAnimation(fn: () => Promise<void>) {
+    setCloseAnimation(fn: (instance: LitPopupInterface) => Promise<void>) {
         this.options.closeAnimation = fn;
     }
 
     async open() {
-        const firstFocusableElement: HTMLElement | null = this.el.querySelector(':not([disabled])');
+        // const firstFocusableElement: HTMLElement | null = this.el.querySelector(':not([disabled])');
         this.previousActiveElement = document.activeElement;
 
-        if (firstFocusableElement) {
-            firstFocusableElement.focus();
-        }
+        // if (firstFocusableElement) {
+        //     firstFocusableElement.focus();
+        // }
 
         this.isOpen = true;
         this.el.classList.add(classes.OPENED, classes.IS_OPENING);
