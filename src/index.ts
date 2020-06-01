@@ -175,10 +175,10 @@ export default class LitPopup implements LitPopupInterface {
             this.innerContainer.scrollTo(0, 0);
         }
 
-        if (this.previousActiveElement instanceof HTMLElement) {
-            this.previousActiveElement.focus();
-            this.previousActiveElement.classList.remove('focus-visible');
-        }
+        // if (this.previousActiveElement instanceof HTMLElement) {
+        //     this.previousActiveElement.focus();
+        //     this.previousActiveElement.classList.remove('focus-visible');
+        // }
 
         this.options.onCloseComplete(this);
         this.trigger(events.CLOSE_COMPLETE);
