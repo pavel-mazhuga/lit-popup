@@ -177,7 +177,8 @@ export default class LitPopup implements LitPopupInterface {
         await this.options.closeAnimation(this);
 
         this.isOpen = false;
-        this.el.classList.remove(classes.IS_CLOSING, classes.OPENED);
+        this.el.classList.remove(classes.IS_CLOSING);
+        this.el.classList.remove(classes.OPENED);
 
         if (this.innerContainer && this.innerContainer.scrollTo) {
             this.innerContainer.scrollTo(0, 0);
