@@ -149,7 +149,10 @@ export default class LitPopup implements LitPopupInterface {
         this.options.closeAnimation = fn;
     }
 
-    async open() {
+    async open(event?: Event) {
+        if (event) {
+            event.preventDefault();
+        }
         // const firstFocusableElement: HTMLElement | null = this.el.querySelector(':not([disabled])');
         this.previousActiveElement = document.activeElement;
 
@@ -169,7 +172,10 @@ export default class LitPopup implements LitPopupInterface {
         this.trigger(events.OPEN_COMPLETE);
     }
 
-    async close() {
+    async close(event?: Event) {
+        if (event) {
+            event.preventDefault();
+        }
         this.el.classList.add(classes.IS_CLOSING);
         this.options.onClose(this);
         this.trigger(events.CLOSE);
