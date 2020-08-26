@@ -55,6 +55,6 @@ export default class LitPopup implements LitPopupInterface {
     trigger(eventName: string, options?: EventOptions): void;
     setOpenAnimation(fn: (instance: LitPopupInterface) => Promise<void>): void;
     setCloseAnimation(fn: (instance: LitPopupInterface) => Promise<void>): void;
-    open(): Promise<void>;
-    close(): Promise<void>;
+    open(event?: Event): Promise<void>;
+    close(event?: Event): Promise<void>;
 }
