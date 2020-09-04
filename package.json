@@ -1,6 +1,6 @@
 {
     "name": "lit-popup",
-    "version": "1.1.3",
+    "version": "1.1.4",
     "description": "A modern popup module with no dependencies.",
     "repository": {
         "type": "git",
