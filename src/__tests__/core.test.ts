@@ -100,6 +100,20 @@ describe('hooks', () => {
 
         expect(onDestroy).toHaveBeenCalledTimes(1);
     });
+
+    // it('has "triggerElement" argument, if open/close button was clicked', () => {
+    //     const openBtn = document.createElement('button');
+    //     openBtn.dataset.litPopupOpen = name;
+    //     document.body.appendChild(openBtn);
+
+    //     const instance = new LitPopup(name);
+    //     // const openBtnAdder = jest.spyOn(instance, 'onOpen').mockImplementation(() => {});
+    //     const openBtnAdder = jest.spyOn(instance, 'onOpen');
+
+    //     openBtn.click();
+
+    //     expect(openBtnAdder).toHaveBeenCalledWith();
+    // });
 });
 
 describe('events', () => {

@@ -26,10 +26,10 @@ export interface LitPopupInterface {
 export interface LitPopupOptions {
     plugins: Plugin[];
     innerContainerSelector: string;
-    onOpen: (instance: LitPopupInterface) => void;
-    onOpenComplete: (instance: LitPopupInterface) => void;
-    onClose: (instance: LitPopupInterface) => void;
-    onCloseComplete: (instance: LitPopupInterface) => void;
+    onOpen: (instance: LitPopupInterface, triggerElement?: HTMLElement) => void;
+    onOpenComplete: (instance: LitPopupInterface, triggerElement?: HTMLElement) => void;
+    onClose: (instance: LitPopupInterface, triggerElement?: HTMLElement) => void;
+    onCloseComplete: (instance: LitPopupInterface, triggerElement?: HTMLElement) => void;
     openAnimation: (instance: LitPopupInterface) => Promise<void>;
     closeAnimation: (instance: LitPopupInterface) => Promise<void>;
     onDestroy: (instance: LitPopupInterface) => void;
@@ -162,13 +162,13 @@ export default class LitPopup implements LitPopupInterface {
 
         this.isOpen = true;
         this.el.classList.add(classes.OPENED, classes.IS_OPENING);
-        this.options.onOpen(this);
+        this.options.onOpen(this, event ? (event.target as HTMLElement) : undefined);
         this.trigger(events.OPEN);
 
         await this.options.openAnimation(this);
 
         this.el.classList.remove(classes.IS_OPENING);
-        this.options.onOpenComplete(this);
+        this.options.onOpenComplete(this, event ? (event.target as HTMLElement) : undefined);
         this.trigger(events.OPEN_COMPLETE);
     }
 
@@ -177,7 +177,7 @@ export default class LitPopup implements LitPopupInterface {
             event.preventDefault();
         }
         this.el.classList.add(classes.IS_CLOSING);
-        this.options.onClose(this);
+        this.options.onClose(this, event ? (event.target as HTMLElement) : undefined);
         this.trigger(events.CLOSE);
 
         await this.options.closeAnimation(this);
@@ -195,7 +195,7 @@ export default class LitPopup implements LitPopupInterface {
         //     this.previousActiveElement.classList.remove('focus-visible');
         // }
 
-        this.options.onCloseComplete(this);
+        this.options.onCloseComplete(this, event ? (event.target as HTMLElement) : undefined);
         this.trigger(events.CLOSE_COMPLETE);
     }
 }
