@@ -163,13 +163,13 @@ export default class LitPopup implements LitPopupInterface {
         this.isOpen = true;
         this.el.classList.add(classes.OPENED, classes.IS_OPENING);
         this.options.onOpen(this, event ? (event.target as HTMLElement) : undefined);
-        this.trigger(events.OPEN);
+        this.trigger(events.OPEN, { triggerElement: event ? (event.target as HTMLElement) : undefined });
 
         await this.options.openAnimation(this);
 
         this.el.classList.remove(classes.IS_OPENING);
         this.options.onOpenComplete(this, event ? (event.target as HTMLElement) : undefined);
-        this.trigger(events.OPEN_COMPLETE);
+        this.trigger(events.OPEN_COMPLETE, { triggerElement: event ? (event.target as HTMLElement) : undefined });
     }
 
     async close(event?: Event) {
@@ -178,7 +178,7 @@ export default class LitPopup implements LitPopupInterface {
         }
         this.el.classList.add(classes.IS_CLOSING);
         this.options.onClose(this, event ? (event.target as HTMLElement) : undefined);
-        this.trigger(events.CLOSE);
+        this.trigger(events.CLOSE, { triggerElement: event ? (event.target as HTMLElement) : undefined });
 
         await this.options.closeAnimation(this);
 
@@ -196,6 +196,6 @@ export default class LitPopup implements LitPopupInterface {
         // }
 
         this.options.onCloseComplete(this, event ? (event.target as HTMLElement) : undefined);
-        this.trigger(events.CLOSE_COMPLETE);
+        this.trigger(events.CLOSE_COMPLETE, { triggerElement: event ? (event.target as HTMLElement) : undefined });
     }
 }
