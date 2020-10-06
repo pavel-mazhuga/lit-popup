@@ -1,3 +1,4 @@
+import delegate from 'delegate';
 import { withPrefix, triggerCustomEvent, listenOnce, events, classes } from './utils';
 import keydown from './plugins/keydown';
 
@@ -62,8 +63,8 @@ export default class LitPopup implements LitPopupInterface {
     isOpen: boolean;
     el: Element;
     innerContainer: Element | null;
-    private openButtons: Element[];
-    private closeButtons: Element[];
+    openDelegation: any;
+    closeDelegation: any;
     private plugins: Plugin[];
     private pluginDestroyers: PluginDestroyer[];
     previousActiveElement: Element | null;
@@ -86,8 +87,6 @@ export default class LitPopup implements LitPopupInterface {
 
         this.listeners = [];
         this.innerContainer = this.el.querySelector(this.options.innerContainerSelector);
-        this.openButtons = Array.from(document.querySelectorAll(`[data-lit-popup-open="${name}"]`));
-        this.closeButtons = Array.from(document.querySelectorAll(`[data-lit-popup-close="${name}"]`));
         this.plugins = [keydown, ...this.options.plugins];
         this.pluginDestroyers = [];
         this.previousActiveElement = null;
@@ -99,24 +98,22 @@ export default class LitPopup implements LitPopupInterface {
     }
 
     private init() {
-        this.openButtons.forEach(btn => btn.addEventListener('click', this.open));
-        this.closeButtons.forEach(btn => btn.addEventListener('click', this.close));
+        this.openDelegation = delegate(document, `[data-lit-popup-open="${name}"]`, 'click', this.open);
+        this.closeDelegation = delegate(document, `[data-lit-popup-close="${name}"]`, 'click', this.close);
         this.pluginDestroyers = this.plugins.map(plugin => plugin(this));
     }
 
     destroy() {
         this.options.onDestroy(this);
         this.trigger(events.DESTROY);
-        this.openButtons.forEach(btn => btn.removeEventListener('click', this.open));
-        this.closeButtons.forEach(btn => btn.removeEventListener('click', this.close));
+        this.openDelegation.destroy();
+        this.closeDelegation.destroy();
         this.pluginDestroyers.forEach(fn => fn());
         this.listeners.forEach(([eventName, fn]) => this.off(eventName, fn));
         this.listeners = [];
         this.isOpen = false;
         (this.el as unknown) = null;
         this.innerContainer = null;
-        (this.openButtons as unknown) = [];
-        (this.closeButtons as unknown) = [];
         this.previousActiveElement = null;
     }
 
