@@ -47,7 +47,6 @@ export default class LitPopup implements LitPopupInterface {
     previousActiveElement: Element | null;
     private listeners;
     constructor(name: string, options?: EventOptions);
-    private init;
     destroy(): void;
     on(eventName: string, fn: EventListener): void;
     one(eventName: string, fn: EventListener): void;
