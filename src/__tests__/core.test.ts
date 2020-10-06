@@ -46,12 +46,14 @@ describe('Openers/closers HTML elements event listeners', () => {
         closeBtn.dataset.litPopupClose = name;
         document.body.appendChild(closeBtn);
 
-        const openBtnAdder = jest.spyOn(openBtn, 'addEventListener').mockImplementation(() => {});
-        const closeBtnAdder = jest.spyOn(closeBtn, 'addEventListener').mockImplementation(() => {});
         const instance = new LitPopup(name);
+        const openSpy = jest.spyOn(instance, 'open').mockImplementation(async () => {});
+        const closeSpy = jest.spyOn(instance, 'close').mockImplementation(async () => {});
+        openBtn.click();
+        closeBtn.click();
 
-        expect(openBtnAdder).toHaveBeenCalledTimes(1);
-        expect(closeBtnAdder).toHaveBeenCalledTimes(1);
+        expect(openSpy).toHaveBeenCalledTimes(1);
+        expect(closeSpy).toHaveBeenCalledTimes(1);
     });
 });
 
@@ -189,11 +191,11 @@ describe('destroy', () => {
         document.body.appendChild(closeBtn);
 
         const instance = new LitPopup(name);
-        const openBtnRemover = jest.spyOn(openBtn, 'removeEventListener').mockImplementation(() => {});
-        const closeBtnRemover = jest.spyOn(closeBtn, 'removeEventListener').mockImplementation(() => {});
+        const openBtnAdder = jest.spyOn(instance, 'open').mockImplementation(async () => {});
+        const closeBtnAdder = jest.spyOn(instance, 'close').mockImplementation(async () => {});
         instance.destroy();
 
-        expect(openBtnRemover).toHaveBeenCalledTimes(1);
-        expect(closeBtnRemover).toHaveBeenCalledTimes(1);
+        expect(openBtnAdder).toHaveBeenCalledTimes(0);
+        expect(closeBtnAdder).toHaveBeenCalledTimes(0);
     });
 });

@@ -94,10 +94,6 @@ export default class LitPopup implements LitPopupInterface {
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
 
-        this.init();
-    }
-
-    private init() {
         this.openDelegation = delegate(document, `[data-lit-popup-open="${name}"]`, 'click', this.open);
         this.closeDelegation = delegate(document, `[data-lit-popup-close="${name}"]`, 'click', this.close);
         this.pluginDestroyers = this.plugins.map(plugin => plugin(this));
