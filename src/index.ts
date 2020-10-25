@@ -96,7 +96,7 @@ export default class LitPopup implements LitPopupInterface {
 
         this.openDelegation = delegate(document, `[data-lit-popup-open="${name}"]`, 'click', this.open);
         this.closeDelegation = delegate(document, `[data-lit-popup-close="${name}"]`, 'click', this.close);
-        this.pluginDestroyers = this.plugins.map(plugin => plugin(this));
+        this.pluginDestroyers = this.plugins.map((plugin) => plugin(this));
     }
 
     destroy() {
@@ -104,7 +104,7 @@ export default class LitPopup implements LitPopupInterface {
         this.trigger(events.DESTROY);
         this.openDelegation.destroy();
         this.closeDelegation.destroy();
-        this.pluginDestroyers.forEach(fn => fn());
+        this.pluginDestroyers.forEach((fn) => fn());
         this.listeners.forEach(([eventName, fn]) => this.off(eventName, fn));
         this.listeners = [];
         this.isOpen = false;
