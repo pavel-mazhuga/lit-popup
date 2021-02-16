@@ -18,6 +18,7 @@ export interface LitPopupInterface {
     trigger: (eventName: string, options?: EventOptions) => void;
 }
 export interface LitPopupOptions {
+    contextElement: HTMLElement | Document;
     plugins: Plugin[];
     innerContainerSelector: string;
     onOpen: (instance: LitPopupInterface, triggerElement?: HTMLElement) => void;
