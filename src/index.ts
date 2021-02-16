@@ -25,6 +25,7 @@ export interface LitPopupInterface {
 }
 
 export interface LitPopupOptions {
+    contextElement: HTMLElement | Document;
     plugins: Plugin[];
     innerContainerSelector: string;
     onOpen: (instance: LitPopupInterface, triggerElement?: HTMLElement) => void;
@@ -47,6 +48,7 @@ export interface Plugin {
 export type Listener = [string, EventListener];
 
 const defaultOptions: LitPopupOptions = {
+    contextElement: document,
     plugins: [],
     innerContainerSelector: '.lit-popup-container',
     onOpen: () => {},
@@ -77,7 +79,7 @@ export default class LitPopup implements LitPopupInterface {
 
         this.options = { ...defaultOptions, ...options };
         this.isOpen = false;
-        const el = document.querySelector(`[data-lit-popup="${name}"]`);
+        const el = this.options.contextElement.querySelector(`[data-lit-popup="${name}"]`);
 
         if (!el) {
             throw new Error(withPrefix('Element not found.'));
@@ -96,7 +98,7 @@ export default class LitPopup implements LitPopupInterface {
 
         this.openDelegation = delegate(document, `[data-lit-popup-open="${name}"]`, 'click', this.open);
         this.closeDelegation = delegate(document, `[data-lit-popup-close="${name}"]`, 'click', this.close);
-        this.pluginDestroyers = this.plugins.map((plugin) => plugin(this));
+        this.pluginDestroyers = this.plugins.map(plugin => plugin(this));
     }
 
     destroy() {
@@ -104,7 +106,7 @@ export default class LitPopup implements LitPopupInterface {
         this.trigger(events.DESTROY);
         this.openDelegation.destroy();
         this.closeDelegation.destroy();
-        this.pluginDestroyers.forEach((fn) => fn());
+        this.pluginDestroyers.forEach(fn => fn());
         this.listeners.forEach(([eventName, fn]) => this.off(eventName, fn));
         this.listeners = [];
         this.isOpen = false;
