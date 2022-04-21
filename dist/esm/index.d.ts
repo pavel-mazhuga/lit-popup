@@ -21,10 +21,10 @@ export interface LitPopupOptions {
     contextElement: HTMLElement | Document;
     plugins: Plugin[];
     innerContainerSelector: string;
-    onOpen: (instance: LitPopupInterface, triggerElement?: HTMLElement) => void;
-    onOpenComplete: (instance: LitPopupInterface, triggerElement?: HTMLElement) => void;
-    onClose: (instance: LitPopupInterface, triggerElement?: HTMLElement) => void;
-    onCloseComplete: (instance: LitPopupInterface, triggerElement?: HTMLElement) => void;
+    onOpen: (instance: LitPopupInterface, triggerElement?: Element | null) => void;
+    onOpenComplete: (instance: LitPopupInterface, triggerElement?: Element | null) => void;
+    onClose: (instance: LitPopupInterface, triggerElement?: Element | null) => void;
+    onCloseComplete: (instance: LitPopupInterface, triggerElement?: Element | null) => void;
     openAnimation: (instance: LitPopupInterface) => Promise<void>;
     closeAnimation: (instance: LitPopupInterface) => Promise<void>;
     onDestroy: (instance: LitPopupInterface) => void;
