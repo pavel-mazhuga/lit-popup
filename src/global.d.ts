@@ -1,1 +1,2 @@
-declare module 'delegate';
+// declare module 'delegate';
+declare module 'delegated-events';
