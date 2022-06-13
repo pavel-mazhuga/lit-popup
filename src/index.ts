@@ -1,4 +1,4 @@
-import { on, off } from 'delegated-events';
+import delegate from 'delegate';
 import { withPrefix, triggerCustomEvent, listenOnce, events, classes } from './utils';
 import keydown from './plugins/keydown';
 
@@ -65,7 +65,6 @@ export default class LitPopup implements LitPopupInterface {
     isOpen: boolean;
     el: Element;
     innerContainer: Element | null;
-    name: string;
     openDelegation: any;
     closeDelegation: any;
     private plugins: Plugin[];
@@ -74,8 +73,6 @@ export default class LitPopup implements LitPopupInterface {
     private listeners: Listener[];
 
     constructor(name: string, options: EventOptions = {}) {
-        this.name = name;
-
         if (!name) {
             throw new Error(withPrefix('Expected a name as a first argument.'));
         }
@@ -99,18 +96,16 @@ export default class LitPopup implements LitPopupInterface {
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
 
-        /* this.openDelegation =  */ on(document, 'click', `[data-lit-popup-open="${name}"]`, this.open);
-        /* this.closeDelegation =  */ on(document, 'click', `[data-lit-popup-close="${name}"]`, this.close);
+        this.openDelegation = delegate(document, `[data-lit-popup-open="${name}"]`, 'click', this.open);
+        this.closeDelegation = delegate(document, `[data-lit-popup-close="${name}"]`, 'click', this.close);
         this.pluginDestroyers = this.plugins.map(plugin => plugin(this));
     }
 
     destroy() {
         this.options.onDestroy(this);
         this.trigger(events.DESTROY);
-        // this.openDelegation.destroy();
-        off(document, 'click', `[data-lit-popup-open="${this.name}"]`, this.open);
-        // this.closeDelegation.destroy();
-        off(document, 'click', `[data-lit-popup-close="${this.name}"]`, this.close);
+        this.openDelegation.destroy();
+        this.closeDelegation.destroy();
         this.pluginDestroyers.forEach(fn => fn());
         this.listeners.forEach(([eventName, fn]) => this.off(eventName, fn));
         this.listeners = [];

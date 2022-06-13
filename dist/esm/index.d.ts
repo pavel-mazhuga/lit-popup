@@ -41,7 +41,6 @@ export default class LitPopup implements LitPopupInterface {
     isOpen: boolean;
     el: Element;
     innerContainer: Element | null;
-    name: string;
     openDelegation: any;
     closeDelegation: any;
     private plugins;

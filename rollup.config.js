@@ -3,11 +3,12 @@ import resolve from 'rollup-plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
 import { eslint } from 'rollup-plugin-eslint';
 // import css from 'rollup-plugin-css-porter';
+import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import pkg from './package.json';
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx'];
 
-const external = [...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.peerDependencies || {})];
+// const external = [...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.peerDependencies || {})];
 
 export default {
     input: 'src/index.ts',
@@ -22,8 +23,9 @@ export default {
             format: 'esm',
         },
     ],
-    external,
+    // external,
     plugins: [
+        peerDepsExternal(),
         resolve({ extensions }),
         // css({
         //     raw: 'dist/css/lit-popup.css',
