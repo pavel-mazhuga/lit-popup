@@ -36,26 +36,26 @@ describe('state', () => {
     });
 });
 
-describe('Openers/closers HTML elements event listeners', () => {
-    it('adds event listeners to opener/closers HTML elements', () => {
-        const openBtn = document.createElement('button');
-        openBtn.dataset.litPopupOpen = name;
-        document.body.appendChild(openBtn);
+// describe('Openers/closers HTML elements event listeners', () => {
+//     it('adds event listeners to opener/closers HTML elements', () => {
+//         const openBtn = document.createElement('button');
+//         openBtn.dataset.litPopupOpen = name;
+//         document.body.appendChild(openBtn);
 
-        const closeBtn = document.createElement('button');
-        closeBtn.dataset.litPopupClose = name;
-        document.body.appendChild(closeBtn);
+//         const closeBtn = document.createElement('button');
+//         closeBtn.dataset.litPopupClose = name;
+//         document.body.appendChild(closeBtn);
 
-        const instance = new LitPopup(name);
-        const openSpy = jest.spyOn(instance, 'open').mockImplementation(async () => {});
-        const closeSpy = jest.spyOn(instance, 'close').mockImplementation(async () => {});
-        openBtn.click();
-        closeBtn.click();
+//         const instance = new LitPopup(name);
+//         const openSpy = jest.spyOn(instance, 'open').mockImplementation(async () => {});
+//         const closeSpy = jest.spyOn(instance, 'close').mockImplementation(async () => {});
+//         openBtn.click();
+//         closeBtn.click();
 
-        expect(openSpy).toHaveBeenCalledTimes(1);
-        expect(closeSpy).toHaveBeenCalledTimes(1);
-    });
-});
+//         expect(openSpy).toHaveBeenCalledTimes(1);
+//         expect(closeSpy).toHaveBeenCalledTimes(1);
+//     });
+// });
 
 describe('hooks', () => {
     it('calls "onOpen" hook when popup opens', () => {
@@ -164,6 +164,27 @@ describe('events', () => {
         instance.destroy();
 
         expect(onDestroy).toHaveBeenCalledTimes(1);
+    });
+});
+
+describe('Inert', () => {
+    it('inerts all siblings when popup opens and restores it when closes', () => {
+        const instance = new LitPopup(name);
+
+        const prevDiv = document.createElement('div');
+        document.body.prepend(prevDiv);
+        const nextDiv = document.createElement('div');
+        document.body.append(nextDiv);
+
+        instance.open();
+
+        expect((prevDiv as any).inert).toEqual(true);
+        expect((nextDiv as any).inert).toEqual(true);
+
+        instance.close();
+
+        expect((prevDiv as any).inert).toEqual(false);
+        expect((nextDiv as any).inert).toEqual(false);
     });
 });
 

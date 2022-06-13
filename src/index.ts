@@ -156,6 +156,13 @@ export default class LitPopup implements LitPopupInterface {
         // }
 
         this.isOpen = true;
+
+        const siblings = Array.from(this.el.parentElement?.children || []).filter(el => el !== this.el);
+
+        siblings.forEach(el => {
+            (el as any).inert = true;
+        });
+
         this.el.classList.add(classes.OPENED, classes.IS_OPENING);
         this.options.onOpen(this, event ? (event.target as HTMLElement).closest('[data-lit-popup-open]') : undefined);
         this.trigger(events.OPEN, {
@@ -177,6 +184,13 @@ export default class LitPopup implements LitPopupInterface {
         if (event) {
             event.preventDefault();
         }
+
+        const siblings = Array.from(this.el.parentElement?.children || []).filter(el => el !== this.el);
+
+        siblings.forEach(el => {
+            (el as any).inert = false;
+        });
+
         this.el.classList.add(classes.IS_CLOSING);
         this.options.onClose(this, event ? (event.target as HTMLElement).closest('[data-lit-popup-open]') : undefined);
         this.trigger(events.CLOSE, {
