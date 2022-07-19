@@ -175,16 +175,21 @@ describe('Inert', () => {
         document.body.prepend(prevDiv);
         const nextDiv = document.createElement('div');
         document.body.append(nextDiv);
+        const ignoredDiv = document.createElement('div');
+        ignoredDiv.setAttribute('data-lit-popup-ignore-inert', '');
+        document.body.append(ignoredDiv);
 
         instance.open();
 
         expect((prevDiv as any).inert).toEqual(true);
         expect((nextDiv as any).inert).toEqual(true);
+        expect((ignoredDiv as any).inert).toBeFalsy();
 
         instance.close();
 
         expect((prevDiv as any).inert).toEqual(false);
         expect((nextDiv as any).inert).toEqual(false);
+        expect((ignoredDiv as any).inert).toBeFalsy();
     });
 });
 

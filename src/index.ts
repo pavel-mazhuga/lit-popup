@@ -157,7 +157,9 @@ export default class LitPopup implements LitPopupInterface {
 
         this.isOpen = true;
 
-        const siblings = Array.from(this.el.parentElement?.children || []).filter(el => el !== this.el);
+        const siblings = Array.from(this.el.parentElement?.children || []).filter(
+            el => el !== this.el && !el.hasAttribute('data-lit-popup-ignore-inert'),
+        );
 
         siblings.forEach(el => {
             (el as any).inert = true;
