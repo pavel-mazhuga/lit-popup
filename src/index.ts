@@ -161,9 +161,9 @@ export default class LitPopup implements LitPopupInterface {
             el => el !== this.el && !el.hasAttribute('data-lit-popup-ignore-inert'),
         );
 
-        siblings.forEach(el => {
-            (el as any).inert = true;
-        });
+        // siblings.forEach(el => {
+        //     (el as any).inert = true;
+        // });
 
         this.el.classList.add(classes.OPENED, classes.IS_OPENING);
         this.options.onOpen(this, event ? (event.target as HTMLElement).closest('[data-lit-popup-open]') : undefined);
@@ -189,9 +189,9 @@ export default class LitPopup implements LitPopupInterface {
 
         const siblings = Array.from(this.el.parentElement?.children || []).filter(el => el !== this.el);
 
-        siblings.forEach(el => {
-            (el as any).inert = false;
-        });
+        // siblings.forEach(el => {
+        //     (el as any).inert = false;
+        // });
 
         this.el.classList.add(classes.IS_CLOSING);
         this.options.onClose(this, event ? (event.target as HTMLElement).closest('[data-lit-popup-open]') : undefined);

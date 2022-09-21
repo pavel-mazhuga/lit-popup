@@ -167,7 +167,7 @@ describe('events', () => {
     });
 });
 
-describe('Inert', () => {
+describe.skip('Inert', () => {
     it('inerts all siblings when popup opens and restores it when closes', () => {
         const instance = new LitPopup(name);
 
